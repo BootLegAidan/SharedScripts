@@ -1,0 +1,65 @@
+body {
+  background: #888;
+}
+#container details {
+  background: #666;
+}
+code {
+  font-size: 1em;
+  padding: 5px;
+  background: rgb(40,44,52);
+  color: rgb(152,158,171);
+  width: 90%;
+  word-spacing: none;
+  display: inline-block;
+}
+
+summary, details {
+  display: block;
+  transition: 0.5s all;
+}
+summary {
+  font-size: 1.5em;
+  outline: none;
+}
+details {
+  clip-path: polygon(0 0, 100% 0, 100% 2em, 0 2em);
+  padding-left: 10px;
+  transition: 0.5s all;
+  padding-bottom: 0.5em;
+}
+details summary::-webkit-details-marker {
+  display:none;
+}
+summary::before {
+  transition: 0.5s all;
+  margin-right: 10px;
+  margin-left: 5px;
+  display: inline-block;
+  content: '⯈'; /* chevron */
+}
+
+details[open] summary::before {
+  transform-origin: center;
+  transform: rotate(90deg);
+}
+details[open] {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+code span[c="0"] {
+  background: #888;
+  /* color: rgb(194,144,98) */
+}
+code span[c="1"] {
+  color: rgb(194,144,98)
+}
+code span[c="2"] {
+  color: rgb(97,175,239)
+}
+code span[c="3"] {
+  color: rgb(152,195,121)
+}
+code span[c="4"] {
+  color: rgb(224,188,122)
+}
