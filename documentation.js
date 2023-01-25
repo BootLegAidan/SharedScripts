@@ -2,6 +2,16 @@ let docs = []
 let docEls = []
 
 let cont = document.getElementById('container')
+
+String.prototype.syntaxHighlight = function () {
+  let snippet = this
+  snippet = snippet.replace(/(?<![a-zA-Z])((\d(\.\d+)*)|false|true)/gu, a => '<span c=1>'+a+'</span>')
+  snippet = snippet.replace(/(?<=\.)[a-zA-Z]+(?=\()/gu, a => '<span c=2>'+a+'</span>')
+  snippet = snippet.replace(/".+"/gu, a => '<span c=3>'+a+'</span>')
+  snippet = snippet.replace(/(Math|Array)/gu, a => '<span c=4>'+a+'</span>')
+  snippet = snippet.replace(/-/gu, a => '<span c=5>'+a+'</span>')
+  return snippet
+}
 class FunctionDoc {
   constructor (name, desc, use) {
     this.el = document.createElement('details')
@@ -20,40 +30,53 @@ class FunctionDoc {
     this.el.innerHTML += '<br>'
     for (let i of use) {
       let text = i.split('___')
-
-      text[0] = text[0].replace(/(\d|false|true)/gui, a => '<span c=1>'+a+'</span>')
-      text[0] = text[0].replace(/(?<=\.)[a-zA-Z]+(?=\()/gui, a => '<span c=2>'+a+'</span>')
-      text[0] = text[0].replace(/".+"/gui, a => '<span c=3>'+a+'</span>')
-      text[0] = text[0].replace(/Math/gui, a => '<span c=4>'+a+'</span>')
-
-      func.innerHTML += text[0] + ' → ' + text[1] + '<br>'
+      func.innerHTML += text[0].syntaxHighlight() + (text[1] ? ' ==> ' + text[1].syntaxHighlight() : '') + '<br>'
     }
     this.el.append(func)
   }
 }
-
 docs.push(
   ['Random From', 'Returns a random value from an array.', [
+    `Array.randFrom()`,
     '[1, 4, 6].randFrom()___4',
     '[1, 4, 6].randFrom()___1',
-    '["foo", "bar", "world"].randFrom()___"world"'
+    '["foo", "bar", ":)"].randFrom()___":)"'
   ]],
   ['Random Between', 'Returns a random float between 2 numbers. If the optional third argument is true, it will return an integer', [
+    'Math.randBetween(min, max, integer*)',
     'Math.randBetween(0,6)___3.76243',
     'Math.randBetween(-6,2,false)___-0.57997',
     'Math.randBetween(6,24,true)___13'
   ]],
   ['Distance', 'Returns the distance between 2 points. The first 2 arguments are the x and y of the first point, and the last 2 arguments are the x and y of the second point.', [
+    'Math.distance(x1, y1, x2, y2)',
     'Math.dist(0,0,5,2)___5.385164',
     'Math.dist(1,-5,5,2)___8.062257',
     'Math.dist(2,0.6,0.55,2)___2.0155'
+  ]],
+  ['Mean', 'Returns the average of an array of numbers.', [
+    'Math.mean(array)',
+    'Math.mean([1,2,3])___2',
+    'Math.mean([1,-5,2,5])___1',
+    'Math.mean([5,9,3,7])___6'
   ]]
 )
 
-docs.sort((a, b) => {console.log(a[0]);return (a[0] > b[0] ? 1 : -1)})
+docs.sort((a, b) => {return (a[0] > b[0] ? 1 : -1)})
 
 for (let i of docs) {
   docEls.push(new FunctionDoc(...i))
   console.log(i);
 }
-Math.dist(0,6,true)
+
+function syntaxHighlight(snippet) {
+  snippet = snippet.replace(/(?<![a-zA-Z])((\d(\.\d+)*)|false|true)/gui, a => '<span c=1>'+a+'</span>')
+  snippet = snippet.replace(/(?<=\.)[a-zA-Z]+(?=\()/gui, a => '<span c=2>'+a+'</span>')
+  snippet = snippet.replace(/".+"/gui, a => '<span c=3>'+a+'</span>')
+  snippet = snippet.replace(/(Math|Array)/gui, a => '<span c=4>'+a+'</span>')
+  snippet = snippet.replace(/-/gui, a => '<span c=5>'+a+'</span>')
+  return snippet
+}
+Math.dist(0,0,5,2)
+Math.randBetween(-6,0.2,false)
+;["foo", "bar", "world"].randFrom()
