@@ -9,7 +9,7 @@ String.prototype.syntaxHighlight = function () {
   snippet = snippet.replace(/(?<=\.)[a-zA-Z]+(?=\()/gu, a => '<span c=2>'+a+'</span>')
   snippet = snippet.replace(/".+"/gu, a => '<span c=3>'+a+'</span>')
   snippet = snippet.replace(/(Math|Array)/gu, a => '<span c=4>'+a+'</span>')
-  snippet = snippet.replace(/-/gu, a => '<span c=5>'+a+'</span>')
+  snippet = snippet.replace(/-|\.{3}/gu, a => '<span c=5>'+a+'</span>')
   return snippet
 }
 class FunctionDoc {
@@ -42,7 +42,7 @@ docs.push(
     '[1, 4, 6].randFrom()___1',
     '["foo", "bar", ":)"].randFrom()___":)"'
   ]],
-  ['Random Between', 'Returns a random float between 2 numbers. If the optional third argument is true, it will return an integer', [
+  ['Random Between (Array)', 'Returns a random float between 2 numbers. If the optional third argument is true, it will return an integer', [
     'Math.randBetween(min, max, integer*)',
     'Math.randBetween(0,6)___3.76243',
     'Math.randBetween(-6,2,false)___-0.57997',
@@ -59,6 +59,30 @@ docs.push(
     'Math.mean([1,2,3])___2',
     'Math.mean([1,-5,2,5])___1',
     'Math.mean([5,9,3,7])___6'
+  ]],
+  ['Restrain', 'Keeps a number between two values.', [
+    'Math.restrain(value, minumum, maximum)',
+    'Math.restrain(4,1,7)___4',
+    'Math.restrain(-5,3,7)___3',
+    'Math.restrain(47,37,39)___39'
+  ]],
+  ['First (Array)', 'returns the first thing in an array.', [
+    'Array.first()',
+    '[1,2,3,4,5,6,7,8,9].first()___1',
+    '["hello",7,[1,2,3]]___"hello"',
+    '[0,2,3,4]___0'
+  ]],
+  ['Last (Array)', 'returns the last thing in an array.', [
+    'Array.last()',
+    '[4,2,0].last()___0',
+    '[..."what?"]___"?"',
+    '[61,32,14]___14'
+  ]],
+  ['Shuffle (Array)', 'randomizes the positions of things in an array.', [
+    'Array.shuffle()',
+    '[1,2,3,4,5].shuffle()___[4, 1, 3, 2, 5]',
+    '[..."mixed"].shuffle()___["x", "e", "i", "m", "d"]',
+    '[3,1,4,1,5].shuffle()___[1, 1, 4, 3, 5]'
   ]]
 )
 
@@ -74,9 +98,13 @@ function syntaxHighlight(snippet) {
   snippet = snippet.replace(/(?<=\.)[a-zA-Z]+(?=\()/gui, a => '<span c=2>'+a+'</span>')
   snippet = snippet.replace(/".+"/gui, a => '<span c=3>'+a+'</span>')
   snippet = snippet.replace(/(Math|Array)/gui, a => '<span c=4>'+a+'</span>')
-  snippet = snippet.replace(/-/gui, a => '<span c=5>'+a+'</span>')
+  snippet = snippet.replace(/-</gui, a => '<span c=5>'+a+'</span>')
   return snippet
-}
-Math.dist(0,0,5,2)
+};
+
+let value, minimum;
 Math.randBetween(-6,0.2,false)
+Math.dist(0,0,5,2)
 ;["foo", "bar", "world"].randFrom()
+if (value < minimum){}
+[..."what?"]+"?"

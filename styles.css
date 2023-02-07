@@ -13,7 +13,10 @@ code {
   word-spacing: none;
   display: inline-block;
 }
-
+code[inline] {
+  width: auto;
+  padding: 2px;
+}
 summary, details {
   display: block;
   transition: 0.5s all;
